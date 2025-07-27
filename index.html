@@ -16,26 +16,48 @@
       box-sizing: border-box;
     }
 
+    :root {
+      --bg-primary: #1a202c;
+      --bg-secondary: #2d3748;
+      --text-primary: #ffffff;
+      --text-secondary: #cbd5e0;
+      --border-color: #4a5568;
+      --input-bg: rgba(45, 55, 72, 0.95);
+      --popup-bg: #2d3748;
+    }
+
+    [data-theme="light"] {
+      --bg-primary: #f7fafc;
+      --bg-secondary: rgba(255, 255, 255, 0.95);
+      --text-primary: #1a202c;
+      --text-secondary: #4a5568;
+      --border-color: #e2e8f0;
+      --input-bg: rgba(255, 255, 255, 0.95);
+      --popup-bg: #ffffff;
+    }
+
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: #1a202c;
+      background: var(--bg-primary);
       min-height: 100vh;
       overflow: hidden;
+      transition: all 0.3s ease;
     }
 
     .header {
-      background: rgba(45, 55, 72, 0.95);
+      background: var(--bg-secondary);
       backdrop-filter: blur(10px);
       padding: 6px 0 6px 0;
       text-align: center;
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
       position: relative;
       z-index: 1000;
-      border-bottom: 1px solid #4a5568;
+      border-bottom: 1px solid var(--border-color);
+      transition: all 0.3s ease;
     }
 
     .header h1 {
-      color: #ffffff;
+      color: var(--text-primary);
       font-size: 1.2rem;
       font-weight: 700;
       margin-bottom: 2px;
@@ -43,7 +65,7 @@
     }
 
     .header p {
-      color: #cbd5e0;
+      color: var(--text-secondary);
       font-size: 0.75rem;
       font-weight: 300;
       margin-bottom: 4px;
@@ -63,12 +85,12 @@
       border: none;
       border-radius: 20px;
       font-size: 0.9rem;
-      background: rgba(45, 55, 72, 0.95);
-      color: #ffffff;
+      background: var(--input-bg);
+      color: var(--text-primary);
       backdrop-filter: blur(10px);
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
       transition: all 0.3s ease;
-      border: 1px solid #4a5568;
+      border: 1px solid var(--border-color);
     }
 
     #searchInput::placeholder {
@@ -97,6 +119,40 @@
     }
 
     #clearSearch:hover {
+      transform: scale(1.1);
+    }
+
+    #themeToggle {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      font-size: 1.2rem;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+      transition: all 0.3s ease;
+    }
+
+    #themeToggle:hover {
+      transform: scale(1.1);
+    }
+
+    #mapToggle {
+      background: linear-gradient(135deg, #48bb78, #38a169);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      font-size: 1.2rem;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+      transition: all 0.3s ease;
+    }
+
+    #mapToggle:hover {
       transform: scale(1.1);
     }
 
@@ -129,15 +185,15 @@
       text-align: center;
       padding: 20px;
       min-width: 280px;
-      background: #2d3748;
-      color: #e2e8f0;
+      background: var(--popup-bg);
+      color: var(--text-secondary);
       border-radius: 12px;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-      border: 1px solid #4a5568;
+      border: 1px solid var(--border-color);
     }
 
     .custom-popup h3 {
-      color: #ffffff;
+      color: var(--text-primary);
       margin-bottom: 10px;
       font-size: 1.3rem;
       font-weight: 700;
@@ -145,11 +201,11 @@
     }
 
     .custom-popup p {
-      color: #cbd5e0;
+      color: var(--text-secondary);
       font-size: 1rem;
       margin: 8px 0;
       padding: 5px 0;
-      border-bottom: 1px solid #4a5568;
+      border-bottom: 1px solid var(--border-color);
     }
 
     .custom-popup p:last-child {
@@ -196,20 +252,21 @@
       position: absolute;
       bottom: 20px;
       right: 20px;
-      background: rgba(45, 55, 72, 0.95);
+      background: var(--bg-secondary);
       backdrop-filter: blur(10px);
       padding: 15px;
       border-radius: 10px;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
       z-index: 1000;
       font-size: 0.9rem;
-      color: #e2e8f0;
-      border: 1px solid #4a5568;
+      color: var(--text-secondary);
+      border: 1px solid var(--border-color);
+      transition: all 0.3s ease;
     }
 
     .legend h4 {
       margin-bottom: 10px;
-      color: #ffffff;
+      color: var(--text-primary);
     }
 
     .legend-item {
@@ -344,6 +401,8 @@
     <div class="search-container">
       <input type="text" id="searchInput" placeholder="🔍 Keresés település, frekvencia vagy csatorna szerint..." />
       <button id="clearSearch">❌</button>
+      <button id="themeToggle" title="Téma váltása">🌙</button>
+      <button id="mapToggle" title="Térkép típus váltása">🗺️</button>
     </div>
 
     <div class="stats">
@@ -364,9 +423,15 @@
     <div style="margin-top: 10px; font-size: 0.8rem; color: #7f8c8d;">
       Kattints a jelre a frekvencia és csatorna adatok megjelenítéséhez
     </div>
-    <div style="margin-top: 8px; font-size: 0.75rem; color: #e53e3e; border-top: 1px solid #4a5568; padding-top: 8px;">
+    <div style="margin-top: 8px; font-size: 0.75rem; color: #e53e3e; border-top: 1px solid var(--border-color); padding-top: 8px;">
       ⚠️ Figyelem: A térkép koordinátái körülbelüli helyeket mutatnak, nem mindig pontosak!
     </div>
+  </div>
+
+  <!-- Távolság panel -->
+  <div id="distancePanel" class="legend" style="bottom: 20px; left: 20px; right: auto; max-width: 300px; display: none;">
+    <h4>📏 Legközelebbi csatornák</h4>
+    <div id="distanceList"></div>
   </div>
 
   <!-- Saját pozíció gomb -->
@@ -403,20 +468,37 @@
       bounceAtZoomLimits: false
     });
 
-    // Műhold kép és határok
-    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+    // Térkép rétegek
+    const satelliteLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
       maxZoom: 19,
       attribution: '© Esri, Maxar, Earthstar Geographics',
       keepBuffer: 100,
       reuseTiles: true
-    }).addTo(map);
-    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}', {
+    });
+
+    const streetLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '© OpenStreetMap contributors',
+      keepBuffer: 100,
+      reuseTiles: true
+    });
+
+    const boundariesLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}', {
       maxZoom: 19,
       attribution: '© Esri',
       className: 'boundaries-layer',
       keepBuffer: 100,
       reuseTiles: true
-    }).addTo(map);
+    });
+
+    // Alapértelmezett rétegek hozzáadása
+    let currentMapType = localStorage.getItem('mapType') || 'satellite';
+    if (currentMapType === 'satellite') {
+      satelliteLayer.addTo(map);
+      boundariesLayer.addTo(map);
+    } else {
+      streetLayer.addTo(map);
+    }
 
     // 2) Városok adatai (név + frekvencia + csatorna + CTCSS)
     const helyek = [
@@ -564,7 +646,92 @@
       btn.style.display = 'none';
     });
 
-    // 7) Finom animáció
+    // 7) Témaváltó funkcionalitás
+    const themeToggle = document.getElementById('themeToggle');
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    
+    function setTheme(theme) {
+      if (theme === 'light') {
+        document.documentElement.setAttribute('data-theme', 'light');
+        themeToggle.textContent = '☀️';
+      } else {
+        document.documentElement.removeAttribute('data-theme');
+        themeToggle.textContent = '🌙';
+      }
+      localStorage.setItem('theme', theme);
+    }
+    
+    setTheme(savedTheme);
+    
+    themeToggle.addEventListener('click', () => {
+      const currentTheme = localStorage.getItem('theme') || 'dark';
+      setTheme(currentTheme === 'dark' ? 'light' : 'dark');
+    });
+
+    // 8) Térkép típus váltó funkcionalitás
+    const mapToggle = document.getElementById('mapToggle');
+    
+    function setMapType(type) {
+      if (type === 'street') {
+        map.removeLayer(satelliteLayer);
+        map.removeLayer(boundariesLayer);
+        streetLayer.addTo(map);
+        mapToggle.textContent = '🛰️';
+        mapToggle.title = 'Váltás műholdas nézetre';
+      } else {
+        map.removeLayer(streetLayer);
+        satelliteLayer.addTo(map);
+        boundariesLayer.addTo(map);
+        mapToggle.textContent = '🗺️';
+        mapToggle.title = 'Váltás utcatérképre';
+      }
+      localStorage.setItem('mapType', type);
+    }
+    
+    // Kezdeti állapot beállítása
+    setMapType(currentMapType);
+    
+    mapToggle.addEventListener('click', () => {
+      const currentType = localStorage.getItem('mapType') || 'satellite';
+      setMapType(currentType === 'satellite' ? 'street' : 'satellite');
+    });
+
+    // 9) Távolság számítás
+    function calculateDistance(lat1, lon1, lat2, lon2) {
+      const R = 6371; // Föld sugara km-ben
+      const dLat = (lat2 - lat1) * Math.PI / 180;
+      const dLon = (lon2 - lon1) * Math.PI / 180;
+      const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                Math.sin(dLon / 2) * Math.sin(dLon / 2);
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+      return R * c;
+    }
+
+    function showNearestChannels(userLat, userLon) {
+      const distances = koordinatak.map((coord, index) => ({
+        index,
+        distance: calculateDistance(userLat, userLon, coord[0], coord[1]),
+        data: helyek[index]
+      }));
+      
+      distances.sort((a, b) => a.distance - b.distance);
+      
+      const distancePanel = document.getElementById('distancePanel');
+      const distanceList = document.getElementById('distanceList');
+      
+      distanceList.innerHTML = distances.slice(0, 5).map(item => `
+        <div style="margin-bottom: 8px; padding: 8px; background: rgba(102, 126, 234, 0.1); border-radius: 6px; cursor: pointer;" 
+             onclick="map.setView([${koordinatak[item.index][0]}, ${koordinatak[item.index][1]}], 12); markers[${item.index}].openPopup();">
+          <strong>${item.data.nev}</strong><br>
+          <small>📏 ${item.distance.toFixed(1)} km | 📡 Cs.${item.data.csatorna} (${item.data.freq})</small>
+        </div>
+      `).join('');
+      
+      distancePanel.style.display = 'block';
+    }
+
+    // 10) Finom animáció
     setTimeout(() => document.body.style.opacity = '1', 100);
 
     // Saját pozíció megjelenítése - többféle módszerrel
@@ -624,6 +791,9 @@
       `).openPopup();
       
       map.setView([lat, lon], accuracy === 'gps' ? 13 : 10, {animate: true});
+      
+      // Távolság számítás megjelenítése
+      showNearestChannels(lat, lon);
       
       // Legközelebbi marker keresése
       let minDist = Infinity;
